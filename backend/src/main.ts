@@ -1,4 +1,6 @@
 import fastify from 'fastify';
+import cors from '@fastify/cors';
+
 import { router } from './routes';
 
 async function bootstrap() {
@@ -6,6 +8,7 @@ async function bootstrap() {
     const app = fastify({ logger: true });
     const PORT = Number(process.env.PORT) || 8080;
 
+    app.register(cors);
     app.register(router);
 
     app.listen({ port: PORT });
