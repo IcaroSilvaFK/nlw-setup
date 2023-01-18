@@ -35,6 +35,10 @@ const daysOfWeek = [
 
 const summaryDates = generateRangeBetweenDates();
 
+const minimumSummaryDateSize = 18 * 7;
+
+const amountOfDaysToFill = minimumSummaryDateSize - summaryDates.length;
+
 export function SummaryTable() {
   return (
     <div className='w-full flex'>
@@ -52,6 +56,13 @@ export function SummaryTable() {
         {summaryDates.map((date, index) => (
           <HabitDay key={`${date}-${index}`} />
         ))}
+        {!!amountOfDaysToFill &&
+          Array.from({ length: amountOfDaysToFill }).map(() => (
+            <div
+              className='w-10 h-10 bg-zinc-900 border-2 border-zinc-800 rounded-lg opacity-40 cursor-not-allowed'
+              key={Uuid()}
+            />
+          ))}
       </div>
     </div>
   );
