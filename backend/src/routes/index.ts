@@ -29,11 +29,46 @@ export async function router(fastify: FastifyInstance) {
     reply.status(201);
   });
 
-  fastify.get('/dat', (request, reply) => {
+  fastify.get('/day', async (request, reply) => {
     const getDayParams = z.object({
-      data: z.coerce.date(),
+      date: z.coerce.date(),
     });
 
-    const { data } = getDayParams.parse(request.query);
+    const { date } = getDayParams.parse(request.query);
+    const parsedDate = dayjs(date).startOf('day');
+    const weekDay = parsedDate.get('day');
+
+    console.log({
+      date,
+      weekDay,
+    });
+
+    const possibleHabits = await prismaClient.habit.findMany({
+      where: {
+        createdAt: {
+          lte: date,
+        },
+        habitWeekDays: {
+          some: {
+            weekDay,
+          },
+        },
+      },
+    });
+
+    const day = await prismaClient.day.findFirst({
+      where: {
+        date: parsedDate.toDate(),
+      },
+      include: {
+        dayHabits: true,
+      },
+    });
+    const completedHabits = day?.dayHabits.map((dayHabit) => dayHabit.habitId);
+
+    return reply.send({
+      possibleHabits,
+      completedHabits,
+    });
   });
 }

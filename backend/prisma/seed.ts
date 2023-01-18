@@ -4,15 +4,17 @@ import { v4 as Uuid } from 'uuid';
 const prisma = new PrismaClient();
 
 const firstHabitId = Uuid();
-const firstHabitDate = new Date('2023-01-04T03:00:00.000z');
+const firstHabitDate = new Date('2022-12-31T03:00:00.000');
 
 const secondHabitId = Uuid();
-const secondHabitDate = new Date('2023-01-04T03:00:00.000z');
+const secondHabitDate = new Date('2023-01-03T03:00:00.000');
 
 const thirdHabitId = Uuid();
-const thirdHabitDate = new Date('2023-01-04T03:00:00.000z');
+const thirdHabitDate = new Date('2023-01-03T03:00:00.000');
 
 async function main() {
+  await prisma.habitWeekDays.deleteMany();
+  await prisma.dayHabit.deleteMany();
   await prisma.day.deleteMany();
   await prisma.habit.deleteMany();
 
