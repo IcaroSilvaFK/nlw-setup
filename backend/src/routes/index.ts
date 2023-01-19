@@ -71,4 +71,89 @@ export async function router(fastify: FastifyInstance) {
       completedHabits,
     });
   });
+
+  fastify.patch('/habits/:id/toggle', async (request, reply) => {
+    const paramsObject = z.object({
+      id: z.string().uuid(),
+    });
+
+    const { id } = paramsObject.parse(request.params);
+
+    const today = dayjs().startOf('day').toDate();
+
+    let day = await prismaClient.day.findUnique({
+      where: {
+        date: today,
+      },
+    });
+
+    if (!day) {
+      day = await prismaClient.day.create({
+        data: {
+          date: today,
+        },
+      });
+    }
+
+    const dayHabit = await prismaClient.dayHabit.findUnique({
+      where: {
+        habitId_dayId: {
+          dayId: day.id,
+          habitId: id,
+        },
+      },
+    });
+
+    if (dayHabit) {
+      await prismaClient.dayHabit.delete({
+        where: {
+          id: dayHabit.id,
+        },
+      });
+    }
+    if (!dayHabit) {
+      await prismaClient.dayHabit.create({
+        data: {
+          dayId: day.id,
+          habitId: id,
+        },
+      });
+    }
+
+    reply.send('ok');
+  });
+
+  fastify.get('/summary', async (request, reply) => {
+    const summary = await prismaClient.$queryRaw`
+      SELECT 
+        D.id, 
+        D.date,
+        (
+          SELECT 
+            cast(count(*) as float)
+          FROM
+            day_habits DH
+          WHERE DH.day_id = D.id
+        ) as completed,
+        (
+          SELECT  
+            cast(count(*) as float)
+          FROM 
+            habit_week_days HWD
+          JOIN 
+            habits H
+            ON 
+              H.id = HWD.habit_id
+          WHERE 
+            HWD.week_day = extract(dow FROM D.date)
+          AND
+            H.created_at <= D.date
+        ) as amount
+      FROM 
+        days D 
+      
+    `;
+
+    reply.send(summary);
+  });
 }
