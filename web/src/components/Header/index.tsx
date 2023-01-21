@@ -13,7 +13,7 @@ export function Header(props: IHeaderProps) {
       <button
         className='
     bg-transparent  border border-violet-500 flex items-center gap-3
-    px-6 py-4 rounded-md hover:border-violet-300 transition
+    px-6 py-4 rounded-md hover:border-violet-300 transition focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-background
   '
         onClick={handleOpenModal}
       >

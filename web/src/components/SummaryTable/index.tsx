@@ -46,10 +46,6 @@ const amountOfDaysToFill = minimumSummaryDateSize - summaryDates.length;
 export function SummaryTable() {
   const { habits, requestHabits } = useHabits((store) => store);
 
-  console.log({
-    habits,
-  });
-
   useEffect(() => {
     requestHabits();
   }, []);

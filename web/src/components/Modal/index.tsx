@@ -101,13 +101,18 @@ export function Modal(props: IModalProps) {
           <span className='font-extrabold text-3xl text-white'>
             Criar hábito
           </span>
-          <button onClick={handleCloseModal} aria-label='Close' title='Fecha'>
+          <button
+            onClick={handleCloseModal}
+            aria-label='Close'
+            title='Fechar Modal'
+            className='focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-background'
+          >
             <X size={22} className='text-zinc-400' />
           </button>
         </header>
         <div>
           <form onSubmit={handleSubmit}>
-            <div className='flex flex-col gap-1'>
+            <div className='flex flex-col gap-1 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-background'>
               <label htmlFor={titleId} className='font-semibold text-white'>
                 Qual seu compromentimento
               </label>
@@ -137,7 +142,7 @@ export function Modal(props: IModalProps) {
             </div>
             <button
               className='
-              flex items-center justify-center gap-3 bg-green-600 text-white hover:bg-green-500 transition w-full p-4 rounded-lg mt-6'
+              flex items-center justify-center gap-3 bg-green-600 text-white hover:bg-green-500 transition w-full p-4 rounded-lg mt-6 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-background'
               type='submit'
             >
               <Check size={20} weight='bold' />

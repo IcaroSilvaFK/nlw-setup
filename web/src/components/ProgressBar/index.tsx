@@ -22,7 +22,7 @@ export function ProgressBar(props: IProgressBarProps) {
         data-state='loading'
         data-value={progress}
         data-max={100}
-        className='h-3 rounded-xl bg-violet-600'
+        className='h-3 rounded-xl bg-violet-600 transition-all'
         aria-label='Progresso de hábito completos'
         style={{ width: `${progress}%` }}
       />

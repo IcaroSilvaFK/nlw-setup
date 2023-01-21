@@ -78,10 +78,10 @@ export function HabitsList(props: IPopoverContentProps) {
           <CheckboxPrimitive.Root
             defaultChecked={habits?.completedHabits?.includes(id)}
             onCheckedChange={() => handleToggleHabit(id)}
-            className='group disabled:cursor-not-allowed flex items-center gap-3'
+            className='group disabled:cursor-not-allowed flex items-center gap-3 focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-background'
             disabled={isDateInPast}
           >
-            <div className='h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 overflow-hidden gap-2 group-data'>
+            <div className='h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 overflow-hidden gap-2 transition-all'>
               <CheckboxPrimitive.Indicator className='h-full w-full bg-green-500 flex items-center justify-center'>
                 <Check size={20} className='text-white' weight='bold' />
               </CheckboxPrimitive.Indicator>

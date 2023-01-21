@@ -16,7 +16,7 @@ export function SelectDay(props: ISelectDayProps) {
     <li className='flex gap-4'>
       <div className=' rounded-lg'>
         <Checkbox.Root
-          className='w-6 h-6 rounded-lg flex items-center justify-center border border-zinc-700 overflow-hidden'
+          className='w-6 h-6 rounded-lg flex items-center justify-center border border-zinc-700 overflow-hidden transition-all focus:outline-none focus:ring-2 focus:ring-violet-600 focus:ring-offset-2 focus:ring-offset-background'
           onCheckedChange={onSelect}
           checked={checked}
         >
