@@ -1,19 +1,24 @@
 import * as PopoverPrimitive from '@radix-ui/react-popover';
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import clsx from 'clsx';
 
 import { ProgressBar } from '../ProgressBar';
-import { Check } from 'phosphor-react';
+
+import dayjs from 'dayjs';
+import { HabitsList } from '../PopoverContent';
 
 interface IHabitDayProps {
-  completed: number;
-  amount: number;
+  completed?: number;
+  amount?: number;
+  date: Date;
 }
 
 export function HabitDay(props: IHabitDayProps) {
-  const { amount, completed } = props;
+  const { amount = 0, completed = 0, date } = props;
 
-  const completedPercentage = Math.round((completed / amount) * 100);
+  const completedPercentage =
+    amount > 0 ? Math.round((completed / amount) * 100) : 0;
+  const dayAnMonth = dayjs(date).format('DD/MM');
+  const dayOfWeek = dayjs(date).format('dddd');
 
   return (
     <PopoverPrimitive.Root>
@@ -34,23 +39,16 @@ export function HabitDay(props: IHabitDayProps) {
 
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content className='min-w-[320px] p-6 rounded-2xl bg-zinc-900 flex flex-col '>
-          <span className='font-semibold text-zinc-400'>Segunda-feira</span>
+          <span className='font-semibold text-zinc-400 uppercase'>
+            {dayOfWeek}
+          </span>
           <span className='mt-1 font-extrabold leading-tight text-3xl'>
-            23/01
+            {dayAnMonth}
           </span>
 
           <ProgressBar progress={completedPercentage} />
 
-          <CheckboxPrimitive.Root className='flex items-center gap-3'>
-            <div className='h-8 w-8 rounded-lg flex items-center justify-center bg-zinc-900 border-2 border-zinc-800 overflow-hidden gap-2'>
-              <CheckboxPrimitive.Indicator className='h-full w-full bg-green-500 flex items-center justify-center'>
-                <Check size={20} className='text-white' weight='bold' />
-              </CheckboxPrimitive.Indicator>
-            </div>
-            <span className='font-semibold text-xl text-white leading-light'>
-              Beber 2L de água
-            </span>
-          </CheckboxPrimitive.Root>
+          <HabitsList date={date} />
 
           <PopoverPrimitive.Arrow
             height={8}

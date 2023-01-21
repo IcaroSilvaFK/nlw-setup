@@ -1,4 +1,8 @@
+import dayjs from 'dayjs';
+import { useEffect, useState } from 'react';
 import { v4 as Uuid } from 'uuid';
+import { api } from '../../global/configs/axios';
+import { useHabits } from '../../store/habits';
 import { generateRangeBetweenDates } from '../../utils/generate-range-from-year-beginning';
 import { HabitDay } from '../HabitDay';
 
@@ -40,6 +44,16 @@ const minimumSummaryDateSize = 18 * 7;
 const amountOfDaysToFill = minimumSummaryDateSize - summaryDates.length;
 
 export function SummaryTable() {
+  const { habits, requestHabits } = useHabits((store) => store);
+
+  console.log({
+    habits,
+  });
+
+  useEffect(() => {
+    requestHabits();
+  }, []);
+
   return (
     <div className='w-full flex'>
       <div className='grid grid-rows-7 grid-flow-row gap-3'>
@@ -53,13 +67,20 @@ export function SummaryTable() {
         ))}
       </div>
       <div className='grid grid-rows-7 grid-flow-col gap-3'>
-        {summaryDates.map((date, index) => (
-          <HabitDay
-            key={`${date}-${index}`}
-            amount={5}
-            completed={Math.round(Math.random() * 5)}
-          />
-        ))}
+        {summaryDates.map((date, index) => {
+          const dayInSummary = habits.find((habit) => {
+            return dayjs(date).isSame(habit.date);
+          });
+
+          return (
+            <HabitDay
+              key={`${date}-${index}`}
+              date={date}
+              amount={dayInSummary?.amount}
+              completed={dayInSummary?.completed}
+            />
+          );
+        })}
         {!!amountOfDaysToFill &&
           Array.from({ length: amountOfDaysToFill }).map(() => (
             <div

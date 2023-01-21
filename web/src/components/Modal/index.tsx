@@ -2,6 +2,7 @@ import { createPortal } from 'react-dom';
 import { X, Check } from 'phosphor-react';
 import { SelectDay } from '../SelectDay';
 import { FormEvent, useEffect, useId, useState } from 'react';
+import { api } from '../../global/configs/axios';
 
 interface IModalProps {
   isOpen: boolean;
@@ -61,6 +62,17 @@ export function Modal(props: IModalProps) {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+
+    try {
+      await api.post('/habits', {
+        title,
+        weekDays: daysSelected,
+      });
+      setTitle('');
+      setDaysSelected([]);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   function handleAddOrRemoveDay(day: number) {
@@ -118,6 +130,7 @@ export function Modal(props: IModalProps) {
                     day={day}
                     key={day}
                     onSelect={() => handleAddOrRemoveDay(value)}
+                    checked={daysSelected.includes(value)}
                   />
                 ))}
               </ul>
