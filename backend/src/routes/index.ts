@@ -4,8 +4,8 @@ import dayjs from 'dayjs';
 
 import { prismaClient } from '../infra/configs/prisma';
 
-export async function router(fastify: FastifyInstance) {
-  fastify.post('/habits', async (request, reply) => {
+export async function router(app: FastifyInstance) {
+  app.post('/habits', async (request, reply) => {
     const createHabitBody = z.object({
       title: z.string(),
       weekDays: z.array(z.number().min(0).max(6)),
@@ -29,7 +29,7 @@ export async function router(fastify: FastifyInstance) {
     reply.status(201);
   });
 
-  fastify.get('/day', async (request, reply) => {
+  app.get('/day', async (request, reply) => {
     const getDayParams = z.object({
       date: z.coerce.date(),
     });
@@ -72,7 +72,7 @@ export async function router(fastify: FastifyInstance) {
     });
   });
 
-  fastify.patch('/habits/:id/toggle', async (request, reply) => {
+  app.patch('/habits/:id/toggle', async (request, reply) => {
     const paramsObject = z.object({
       id: z.string().uuid(),
     });
@@ -123,7 +123,7 @@ export async function router(fastify: FastifyInstance) {
     reply.send('ok');
   });
 
-  fastify.get('/summary', async (request, reply) => {
+  app.get('/summary', async (request, reply) => {
     const summary = await prismaClient.$queryRaw`
       SELECT 
         D.id, 

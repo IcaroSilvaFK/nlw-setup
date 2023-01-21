@@ -25,7 +25,7 @@ export function Modal(props: IModalProps) {
   }
 
   return createPortal(
-    <div className='absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-900/75 backdrop-blur-sm '>
+    <div className='absolute top-0 left-0 right-0 bottom-0 flex items-center justify-center bg-gray-900/75 backdrop-blur-sm'>
       <div className='bg-zinc-900 max-w-md w-full px-9 py-10 rounded-lg shadow-md transition'>
         <header className='flex items-start justify-between mb-4'>
           <span className='font-extrabold text-3xl text-white'>
