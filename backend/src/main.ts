@@ -12,7 +12,7 @@ async function bootstrap() {
     app.register(cors);
     app.register(router);
 
-    app.listen({ port: PORT /* host: '0.0.0.0'*/ });
+    app.listen({ port: PORT, host: '0.0.0.0' });
     console.log(`🚀server running at port ${PORT}`);
   } catch (err) {
     console.log(err);

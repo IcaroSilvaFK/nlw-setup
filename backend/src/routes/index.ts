@@ -99,13 +99,13 @@ export async function router(app: FastifyInstance) {
         },
       },
     });
-
     if (dayHabit) {
       await prismaClient.dayHabit.delete({
         where: {
           id: dayHabit.id,
         },
       });
+      console.log('deleted');
     }
     if (!dayHabit) {
       await prismaClient.dayHabit.create({
@@ -114,6 +114,7 @@ export async function router(app: FastifyInstance) {
           habitId: id,
         },
       });
+      console.log('created');
     }
 
     reply.send('ok');
